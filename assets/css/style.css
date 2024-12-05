@@ -746,10 +746,16 @@ main {
 .certificates-item {
   min-width: 50%;
   scroll-snap-align: start;
+  text-align: center;         /* Centers the text */
+  font-weight: bold;          /* Makes the text bold */
+  color: white;               /* Sets the text color to white */
+  font-size: 12px;            /* Initial font size */
+  transition: transform 0.3s ease, font-size 0.3s ease;
 }
 
 .certificates-item img {
-  width: 100%;
+  width: 150px;               /* Set a fixed width */
+  height: 150px; 
   filter: grayscale(1);
   transition: var(--transition-1);
 }

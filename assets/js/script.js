@@ -157,3 +157,48 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
   });
 }
+
+
+// Add event listener for form submission
+form.addEventListener("submit", function (event) {
+  event.preventDefault(); // Prevent form from reloading the page
+
+  const name = form.querySelector("[name='fullname']").value;
+  const email = form.querySelector("[name='email']").value;
+  const message = form.querySelector("[name='message']").value;
+
+  // Call the sendMail function
+  sendMail(name, email, 'Subject', message);
+
+  // Provide user feedback
+  // alert("Your message has been sent!");
+  form.reset(); // Reset the form fields
+  formBtn.setAttribute("disabled", ""); // Disable the button again
+});
+
+// Add your sendMail function here
+function sendMail(name, email, subject, message) {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.set('Authorization', 'Basic ' + btoa('d15cbd391eb1d13ef8f553434ecfd2ed' + ":" + '6b1929d581d3b9b326a7a04d766e0b52'));
+
+  const data = JSON.stringify({
+    "Messages": [{
+      "From": [{ "Email": email, "Name": name }],
+      "To": { "Email": "rdinesh5697@gmail.com", "Name": "Dinesh" },
+      "Subject": subject,
+      "TextPart": message
+    }]
+  });
+
+  const requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: data,
+  };
+
+  fetch("https://api.mailjet.com/v3.1/send", requestOptions)
+    .then(response => response.json())
+    .then(result => console.log("Mail sent successfully:", result))
+    .catch(error => console.error("Error sending mail:", error));
+}
